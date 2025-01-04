@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  email     String      @id @unique @db.VarChar(100)
+  nama      String      @db.VarChar(100)
+  password  String      @db.VarChar(100)
+  alamat    String      @db.VarChar(200)
+  image     String      @db.VarChar(100)
+  isActive  IsActive    @default(ACTIVE)
+  token     String?     @db.VarChar(100)
+  transaksi Transaksi[]
+
+  @@map("users")
+}
+
+model Transaksi {
+  id                Int             @id @default(autoincrement())
+  midtransCode      String          @db.VarChar(120)
+  total             Int
+  tanggal           DateTime
+  user              User            @relation(fields: [email], references: [email])
+  email             String          @db.VarChar(100)
+  detailTransaksi   DetailTransaksi @relation(fields: [detailTransaksiId], references: [id])
+  detailTransaksiId Int             @unique
+
+  @@map("transaksi")
+}
+
+model DetailTransaksi {
+  id           Int            @id @default(autoincrement())
+  jumlah       Int
+  subTotal     Int
+  produkId     Int
+  transaksi    Transaksi?
+  ProdukDetail ProdukDetail[]
+
+  @@map("detailTransaksi")
+}
+
+model Produk {
+  id           Int            @id @default(autoincrement())
+  namaProduk   String         @db.VarChar(100)
+  harga        Int
+  stok         Int
+  image        String         @db.VarChar(100)
+  kategori     Kategori       @relation(fields: [kategoriId], references: [id])
+  kategoriId   Int
+  ProdukDetail ProdukDetail[]
+  Temp         Temp[]
+
+  @@map("produk")
+}
+
+model Kategori {
+  id           Int      @id @default(autoincrement())
+  namaKategori String   @db.VarChar(100)
+  Produk       Produk[]
+
+  @@map("kategori")
+}
+
+model ProdukDetail {
+  id                Int             @id @default(autoincrement())
+  detailTransaksi   DetailTransaksi @relation(fields: [detailTransaksiId], references: [id])
+  detailTransaksiId Int
+  produk            Produk          @relation(fields: [produkId], references: [id])
+  produkId          Int
+
+  @@map("produkDetail")
+}
+
+model Temp {
+  id       Int    @id @default(autoincrement())
+  jumlah   Int
+  subTotal Int
+  produk   Produk @relation(fields: [produkId], references: [id])
+  produkId Int
+
+  @@map("temp")
+}
+
+model DataExcel {
+  id        Int    @id @default(autoincrement())
+  namaFile  String @db.VarChar(100)
+  excelLink String @db.VarChar(255)
+
+  @@map("dataExcel")
+}
+
+enum IsActive {
+  ACTIVE
+  NON_ACTIVE
+}
