@@ -14,11 +14,11 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "midtransCode": "THX-1234567890123",
+    "midtrans_code": "THX-1234567890123",
     "total": 40000,
-    "tanggal": "2024-12-1/20.32",
-    "userId": 1,
-    "detailId": 1
+    "date": "2024-12-1/20.32",
+    "email": 1,
+    "transaction_detail_id": 1
   }
 }
 ```
@@ -41,11 +41,11 @@ Headers :
 
 Query params :
 
-- midtransCode : Search by midtrans code using like, optional
+- midtrans_code : Search by midtrans code using like, optional
 - total : Search by total using like, optional
-- tanggal : Search by tanggal using like, optional
-- userId : Search by user using like, optional
-- detailId : Search by detail id using like, optional
+- date : Search by date using like, optional
+- email : Search by user using like, optional
+- transaction_detail_id : Search by detail id using like, optional
 - page : number of page, default 1
 - size : size per page, default 10
 
@@ -56,19 +56,19 @@ Response Body Success :
   "data": [
     {
       "id": 1,
-      "midtransCode": "THX-1234567890123",
+      "midtrans_code": "THX-1234567890123",
       "total": 40000,
-      "tanggal": "2024-12-1/20.32",
-      "userId": 1,
-      "detailId": 1
+      "date": "2024-12-1/20.32",
+      "email": 1,
+      "transaction_detail_id": 1
     },
     {
       "id": 2,
-      "midtransCode": "THX-1234567890123",
+      "midtrans_code": "THX-1234567890123",
       "total": 40000,
-      "tanggal": "2024-12-1/20.32",
-      "userId": 1,
-      "detailId": 1
+      "date": "2024-12-1/20.32",
+      "email": 1,
+      "transaction_detail_id": 1
     }
   ],
   "paging": {

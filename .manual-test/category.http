@@ -1,0 +1,39 @@
+
+### Login to get the token
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "user",
+  "password": "rahasia"
+}
+
+### Create a new category
+POST http://localhost:3000/api/categorys
+Content-Type: application/json
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+{
+  "category_name": "Coffe"
+}
+
+### Get a category by ID
+GET http://localhost:3000/api/categorys/2
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+### Update a category by ID
+PUT http://localhost:3000/api/categorys/2
+Content-Type: application/json
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+{
+  "category_name": "Updated Coffe"
+}
+
+### Search for categorys
+GET http://localhost:3000/api/categorys?category_name=Coffe&page=1&size=10
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+### Delete a category by ID
+DELETE http://localhost:3000/api/categorys/2
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f

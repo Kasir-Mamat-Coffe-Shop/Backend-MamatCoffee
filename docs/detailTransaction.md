@@ -14,9 +14,9 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "jumlah": 3,
-    "subTotal": 30000,
-    "produkId": 1
+    "total": 3,
+    "sub_total": 30000,
+    "produk_id": 1
   }
 }
 ```
@@ -39,9 +39,9 @@ Headers :
 
 Query params :
 
-- jumlah : Search by jumlah using like, optional
-- subTotal : Search by subtotal using like, optional
-- produkId : Search by produk using like, optional
+- total : Search by total using like, optional
+- sub_total : Search by sub_total using like, optional
+- produk_id : Search by produk using like, optional
 - page : number of page, default 1
 - size : size per page, default 10
 
@@ -52,15 +52,15 @@ Response Body Success :
   "data": [
     {
       "id": 1,
-      "jumlah": 3,
-      "subTotal": 30000,
-      "produkId": 1
+      "total": 3,
+      "sub_total": 30000,
+      "produk_id": 1
     },
     {
       "id": 2,
-      "jumlah": 3,
-      "subTotal": 30000,
-      "produkId": 1
+      "total": 3,
+      "sub_total": 30000,
+      "produk_id": 1
     }
   ],
   "paging": {

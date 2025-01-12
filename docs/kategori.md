@@ -12,7 +12,7 @@ Request Body :
 
 ```json
 {
-  "namaKategori": "Minuman kopi"
+  "category_name": "Minuman kopi"
 }
 ```
 
@@ -22,7 +22,7 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaKategori": "Minuman kopi"
+    "category_name": "Minuman kopi"
   }
 }
 ```
@@ -47,7 +47,7 @@ Request Body :
 
 ```json
 {
-  "namaKategori": "Minuman kopi"
+  "category_name": "Minuman kopi"
 }
 ```
 
@@ -57,7 +57,7 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaKategori": "Minuman Kopi"
+    "category_name": "Minuman Kopi"
   }
 }
 ```
@@ -84,7 +84,7 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaKategori": "Minuman kopi"
+    "category_name": "Minuman kopi"
   }
 }
 ```
@@ -107,7 +107,7 @@ Headers :
 
 Query params :
 
-- namaKategori : Search by Category name using like, optional
+- category_name : Search by Category name using like, optional
 
 Response Body Success :
 
@@ -116,11 +116,11 @@ Response Body Success :
   "data": [
     {
       "id": 1,
-      "namaKategori": "Minuman kopi"
+      "category_name": "Minuman kopi"
     },
     {
       "id": 2,
-      "namaKategori": "Minuman non kopi"
+      "category_name": "Minuman non kopi"
     }
   ]
 }

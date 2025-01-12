@@ -14,7 +14,7 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaFIle": "Recap Desember 2024",
+    "file_name": "Recap Desember 2024",
     "excelLink": "Link"
   }
 }
@@ -38,7 +38,7 @@ Headers :
 
 Query params :
 
-- namaFIle : Search by file name using like, optional
+- file_name : Search by file name using like, optional
 - page : number of page, default 1
 - size : size per page, default 10
 
@@ -49,12 +49,12 @@ Response Body Success :
   "data": [
     {
       "id": 1,
-      "namaFIle": "Recap Desember 2024",
+      "file_name": "Recap Desember 2024",
       "excelLink": "Link"
     },
     {
       "id": 2,
-      "namaFIle": "Recap Desember 2024",
+      "file_name": "Recap Desember 2024",
       "excelLink": "Link"
     }
   ],
