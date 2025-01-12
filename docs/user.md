@@ -11,7 +11,7 @@ Request Body :
   "email": "email.com",
   "password": "rahasia",
   "name": "user name",
-  "alamat": "jl rumah",
+  "address": "jl rumah",
   "image": "user image",
   "role": "karyawan"
 }

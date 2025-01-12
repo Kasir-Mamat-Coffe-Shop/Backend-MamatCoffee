@@ -12,11 +12,11 @@ Request Body :
 
 ```json
 {
-  "namaProduk": "Americano",
-  "harga": 10000,
-  "stok": 10,
+  "product_name": "Americano",
+  "price": 10000,
+  "stock": 10,
   "image": "image link",
-  "kategoriId": 1
+  "kategori_id": 1
 }
 ```
 
@@ -26,11 +26,11 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaProduk": "Americano",
-    "harga": 10000,
-    "stok": 10,
+    "product_name": "Americano",
+    "price": 10000,
+    "stock": 10,
     "image": "image link",
-    "kategoriId": 1
+    "kategori_id": 1
   }
 }
 ```
@@ -39,7 +39,7 @@ Response Body Error :
 
 ```json
 {
-  "errors": "Harga is not valid format"
+  "errors": "price is not valid format"
 }
 ```
 
@@ -55,11 +55,11 @@ Request Body :
 
 ```json
 {
-  "namaProduk": "Americano",
-  "harga": 10000,
-  "stok": 10,
+  "product_name": "Americano",
+  "price": 10000,
+  "stock": 10,
   "image": "image link",
-  "kategoriId": 1
+  "kategori_id": 1
 }
 ```
 
@@ -69,11 +69,11 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaProduk": "Americano",
-    "harga": 10000,
-    "stok": 10,
+    "product_name": "Americano",
+    "price": 10000,
+    "stock": 10,
     "image": "image link",
-    "kategoriId": 1
+    "kategori_id": 1
   }
 }
 ```
@@ -82,7 +82,7 @@ Response Body Error :
 
 ```json
 {
-  "errors": "Harga is not valid format"
+  "errors": "price is not valid format"
 }
 ```
 
@@ -100,11 +100,11 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "namaProduk": "Americano",
-    "harga": 10000,
-    "stok": 10,
+    "product_name": "Americano",
+    "price": 10000,
+    "stock": 10,
     "image": "image link",
-    "kategoriId": 1
+    "kategori_id": 1
   }
 }
 ```
@@ -127,10 +127,10 @@ Headers :
 
 Query params :
 
-- namaProduk : Search by product name using like, optional
-- harga : Search by harga using like, optional
-- stok : Search by stok using like, optional
-- kategoriId : Search by kategori using like, optional
+- product_name : Search by product name using like, optional
+- price : Search by price using like, optional
+- stock : Search by stock using like, optional
+- kategori_id : Search by kategori using like, optional
 - page : number of page, default 1
 - size : size per page, default 10
 
@@ -141,19 +141,19 @@ Response Body Success :
   "data": [
     {
       "id": 1,
-      "namaProduk": "Americano",
-      "harga": 10000,
-      "stok": 10,
+      "product_name": "Americano",
+      "price": 10000,
+      "stock": 10,
       "image": "image link",
-      "kategoriId": 1
+      "kategori_id": 1
     },
     {
       "id": 2,
-      "namaProduk": "Americano",
-      "harga": 10000,
-      "stok": 10,
+      "product_name": "Americano",
+      "price": 10000,
+      "stock": 10,
       "image": "image link",
-      "kategoriId": 1
+      "kategori_id": 1
     }
   ],
   "paging": {

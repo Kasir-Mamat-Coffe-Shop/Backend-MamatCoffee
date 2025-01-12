@@ -1,0 +1,47 @@
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email" : "user",
+  "password" : "rahasia",
+  "name" : "Name",
+  "address" : "Jalan 1"
+}
+
+### 
+
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email" : "user",
+  "password" : "rahasia"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+
+###
+
+GET http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+###
+
+PATCH http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+
+{
+  "name" : "Nama Update",
+  "email" : "user@email.com"
+}

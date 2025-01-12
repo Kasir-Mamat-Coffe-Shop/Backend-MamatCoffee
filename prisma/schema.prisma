@@ -14,93 +14,90 @@ datasource db {
 }
 
 model User {
-  email     String      @id @unique @db.VarChar(100)
-  nama      String      @db.VarChar(100)
-  password  String      @db.VarChar(100)
-  alamat    String      @db.VarChar(200)
-  image     String      @db.VarChar(100)
-  isActive  IsActive    @default(ACTIVE)
-  token     String?     @db.VarChar(100)
-  transaksi Transaksi[]
+  email        String        @id @unique @db.VarChar(100)
+  name         String        @db.VarChar(100)
+  password     String        @db.VarChar(100)
+  address      String?       @db.VarChar(255)
+  image        String?       @db.VarChar(100)
+  is_active    IsActive      @default(ACTIVE)
+  token        String?       @db.VarChar(100)
+  transactions Transaction[]
 
   @@map("users")
 }
 
-model Transaksi {
-  id                Int             @id @default(autoincrement())
-  midtransCode      String          @db.VarChar(120)
-  total             Int
-  tanggal           DateTime
-  user              User            @relation(fields: [email], references: [email])
-  email             String          @db.VarChar(100)
-  detailTransaksi   DetailTransaksi @relation(fields: [detailTransaksiId], references: [id])
-  detailTransaksiId Int             @unique
+model Transaction {
+  id                  Int                 @id @default(autoincrement())
+  transaction_code    String              @db.VarChar(120)
+  transaction_method  TransactionMethod   @default(CASH)
+  total               Int
+  date                DateTime
+  status              String              @db.VarChar(25)
+  user                User                @relation(fields: [email], references: [email])
+  email               String              @db.VarChar(100)
+  transaction_details TransactionDetail[]
 
-  @@map("transaksi")
+  @@map("transactions")
 }
 
-model DetailTransaksi {
-  id           Int            @id @default(autoincrement())
-  jumlah       Int
-  subTotal     Int
-  produkId     Int
-  transaksi    Transaksi?
-  ProdukDetail ProdukDetail[]
+model TransactionDetail {
+  id             Int          @id @default(autoincrement())
+  quantity       Int
+  sub_total      Int
+  product        Product      @relation(fields: [product_id], references: [id])
+  product_id     Int
+  transaction    Transaction? @relation(fields: [transaction_id], references: [id])
+  transaction_id Int?
 
-  @@map("detailTransaksi")
+  @@map("transaction_details")
 }
 
-model Produk {
-  id           Int            @id @default(autoincrement())
-  namaProduk   String         @db.VarChar(100)
-  harga        Int
-  stok         Int
-  image        String         @db.VarChar(100)
-  kategori     Kategori       @relation(fields: [kategoriId], references: [id])
-  kategoriId   Int
-  ProdukDetail ProdukDetail[]
-  Temp         Temp[]
+model Product {
+  id                  Int                 @id @default(autoincrement())
+  product_name        String              @db.VarChar(100)
+  price               Int
+  stock               Int
+  image               String              @db.VarChar(100)
+  category            Category            @relation(fields: [category_id], references: [id])
+  category_id         Int
+  transaction_details TransactionDetail[]
+  temps               Temp[]
 
-  @@map("produk")
+  @@map("products")
 }
 
-model Kategori {
-  id           Int      @id @default(autoincrement())
-  namaKategori String   @db.VarChar(100)
-  Produk       Produk[]
+model Category {
+  id            Int       @id @default(autoincrement())
+  category_name String    @db.VarChar(100)
+  products      Product[]
 
-  @@map("kategori")
-}
-
-model ProdukDetail {
-  id                Int             @id @default(autoincrement())
-  detailTransaksi   DetailTransaksi @relation(fields: [detailTransaksiId], references: [id])
-  detailTransaksiId Int
-  produk            Produk          @relation(fields: [produkId], references: [id])
-  produkId          Int
-
-  @@map("produkDetail")
+  @@map("categories")
 }
 
 model Temp {
-  id       Int    @id @default(autoincrement())
-  jumlah   Int
-  subTotal Int
-  produk   Produk @relation(fields: [produkId], references: [id])
-  produkId Int
+  id         Int     @id @default(autoincrement())
+  quantity   Int
+  sub_total  Int
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
 
-  @@map("temp")
+  @@map("temps")
 }
 
-model DataExcel {
-  id        Int    @id @default(autoincrement())
-  namaFile  String @db.VarChar(100)
-  excelLink String @db.VarChar(255)
+model ExcelData {
+  id         Int    @id @default(autoincrement())
+  file_name  String @db.VarChar(100)
+  excel_link String @db.VarChar(255)
 
-  @@map("dataExcel")
+  @@map("excel_data")
 }
 
 enum IsActive {
   ACTIVE
-  NON_ACTIVE
+  INACTIVE
+}
+
+enum TransactionMethod {
+  CASH
+  QRIS
 }

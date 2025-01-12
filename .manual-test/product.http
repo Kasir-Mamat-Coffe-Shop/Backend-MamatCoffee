@@ -1,0 +1,47 @@
+
+### Login to get the token
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "user",
+  "password": "rahasia"
+}
+
+### Create a new product
+POST http://localhost:3000/api/products
+Content-Type: application/json
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+
+{
+  "product_name": "Cappuchino",
+  "price": 15000,
+  "stock": 10,
+  "image": "https://example.com/cappuchino.jpg",
+  "category_id": 2
+}
+
+### Get a product by ID
+GET http://localhost:3000/api/products/4
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+
+### Update a product by ID
+PUT http://localhost:3000/api/products/4
+Content-Type: application/json
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+
+{
+  "product_name": "Updated Americano",
+  "price": 12000,
+  "stock": 15,
+  "image": "https://example.com/updated-americano.jpg",
+  "category_id": 2
+}
+
+### Search for products
+GET http://localhost:3000/api/products?product_name=Cappuchino&page=1&size=10
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+
+### Delete a product by ID
+DELETE http://localhost:3000/api/products/4
+Authorization: a258adbc-589b-4a34-a99e-b0eff151339e

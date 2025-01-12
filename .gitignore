@@ -165,4 +165,4 @@ dist
 # Prisma
 prisma/migrations/
 
-test.http
+example/

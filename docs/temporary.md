@@ -12,9 +12,9 @@ Request Body :
 
 ```json
 {
-  "jumlah": 2,
-  "subTotal": 20000,
-  "produkId": 1
+  "total": 2,
+  "sub_total": 20000,
+  "product_id": 1
 }
 ```
 
@@ -24,9 +24,9 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "jumlah": 2,
-    "subTotal": 20000,
-    "produkId": 1
+    "total": 2,
+    "sub_total": 20000,
+    "product_id": 1
   }
 }
 ```
@@ -51,9 +51,9 @@ Request Body :
 
 ```json
 {
-  "jumlah": 3,
-  "subTotal": 30000,
-  "produkId": 1
+  "total": 3,
+  "sub_total": 30000,
+  "product_id": 1
 }
 ```
 
@@ -63,9 +63,9 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "jumlah": 2,
-    "subTotal": 20000,
-    "produkId": 1
+    "total": 2,
+    "sub_total": 20000,
+    "product_id": 1
   }
 }
 ```
@@ -92,9 +92,9 @@ Response Body Success :
 {
   "data": {
     "id": 1,
-    "jumlah": 2,
-    "subTotal": 20000,
-    "produkId": 1
+    "total": 2,
+    "sub_total": 20000,
+    "product_id": 1
   }
 }
 ```
