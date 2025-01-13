@@ -1,5 +1,6 @@
 import paymentService from '../service/payment-service.js';
 import { logger } from '../application/logging.js';
+import { sendToClients } from '../application/websocket.js';
 
 const handleWebhook = async (req, res, next) => {
     try {
@@ -14,14 +15,20 @@ const handleWebhook = async (req, res, next) => {
         }
 
         // Update payment status in the database using order_id
-        await paymentService.updatePaymentStatus(notification.tranotification.transaction_status);
+        await paymentService.updatePaymentStatus(notification.order_id, notification.transaction_status);
 
-        // Send a single message to the frontend based on the transaction status
+        // Notify frontend based on transaction status
         if (notification.transaction_status === "settlement") {
-            // Send response to frontend
             res.status(200).json({ message: 'Pembayaran sukses' });
+            sendToClients({ message: 'Payment paid successfully' });
+        } else if (notification.transaction_status === "pending") {
+            res.status(200).json({ message: 'Pembayaran dalam proses' });
+        } else if (notification.transaction_status === "cancel") {
+            res.status(200).json({ message: 'Pembayaran dibatalkan' });
+        } else if (notification.transaction_status === "expire") {
+            res.status(200).json({ message: 'Pembayaran expire' });
         } else {
-            res.status(200).json({ message: 'Transaksi diproses', status: notification.transaction_status });
+            res.status(200).json({ message: 'Status pembayaran tidak dikenali' });
         }
     } catch (error) {
         logger.error('Error handling webhook:', error);

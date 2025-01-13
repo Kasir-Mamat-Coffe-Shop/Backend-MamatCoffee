@@ -25,7 +25,7 @@ Accept: application/json
 DELETE http://localhost:3000/api/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ###
 
