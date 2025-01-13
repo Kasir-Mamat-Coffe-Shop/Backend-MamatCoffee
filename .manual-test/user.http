@@ -3,10 +3,12 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "user",
+  "email" : "user@example.com",
   "password" : "rahasia",
-  "name" : "Name",
-  "address" : "Jalan 1"
+  "first_name" : "User",
+  "last_name" : "Cashier",
+  "address" : "Jalan 1",
+  "birth_date" : "2000-02-20"
 }
 
 ### 
@@ -16,7 +18,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "user",
+  "email" : "user@example.com",
   "password" : "rahasia"
 }
 
@@ -42,6 +44,5 @@ Accept: application/json
 Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
 
 {
-  "name" : "Nama Update",
-  "email" : "user@email.com"
+  "image" : "image.img"
 }

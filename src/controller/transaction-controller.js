@@ -1,14 +1,5 @@
 import transactionService from "../service/transaction-service.js";
 
-const create = async (req, res, next) => {
-    try {
-        const result = await transactionService.create(req.body);
-        res.status(201).json(result);
-    } catch (e) {
-        next(e);
-    }
-};
-
 const get = async (req, res, next) => {
     try {
         const transactionId = req.params.transactionId;
@@ -21,8 +12,17 @@ const get = async (req, res, next) => {
 
 const search = async (req, res, next) => {
     try {
-        const query = req.query;
-        const result = await transactionService.search(query);
+        const request = req.query;
+        const result = await transactionService.search(request);
+        res.status(200).json(result);
+    } catch (e) {
+        next(e);
+    }
+};
+
+const list = async (req, res, next) => {
+    try {
+        const result = await transactionService.list();
         res.status(200).json(result);
     } catch (e) {
         next(e);
@@ -30,7 +30,7 @@ const search = async (req, res, next) => {
 };
 
 export default {
-    create,
     get,
     search,
+    list,
 };
