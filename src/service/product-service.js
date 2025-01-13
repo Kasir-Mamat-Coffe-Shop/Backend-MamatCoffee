@@ -123,23 +123,29 @@ const search = async (request) => {
     if (request.product_name) {
         filters.push({
             product_name: {
-                contains: request.product_name
+                contains: request.product_name,
             }
         });
     }
     if (request.price) {
         filters.push({
-            price: request.price
+            price: {
+                equals: request.price,
+            }
         });
     }
     if (request.stock) {
         filters.push({
-            stock: request.stock
+            stock: {
+                equals: request.stock,
+            }
         });
     }
     if (request.category_id) {
         filters.push({
-            category_id: request.category_id
+            category_id: {
+                equals: request.category_id,
+            }
         });
     }
 

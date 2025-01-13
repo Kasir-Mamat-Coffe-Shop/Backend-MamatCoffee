@@ -4,7 +4,6 @@ import productController from "../controller/product-controller.js";
 import categoryController from "../controller/category-controller.js";
 import cartController from "../controller/cart-controller.js";
 import transactionController from "../controller/transaction-controller.js";
-import detailTransactionController from "../controller/detail-transaction-controller.js";
 import { authMiddleware } from "../middleware/auth-middleware.js";
 
 const userRouter = new express.Router();
@@ -30,14 +29,9 @@ userRouter.delete('/api/categorys/:id', categoryController.remove);
 userRouter.get('/api/categorys', categoryController.search);
 
 // Transaction API
-userRouter.post('/api/transactions', transactionController.create);
 userRouter.get('/api/transactions/:transactionId', transactionController.get);
 userRouter.get('/api/transactions', transactionController.search);
-
-// Detail Transaction API
-userRouter.post('/api/detail-transactions', detailTransactionController.create);
-userRouter.get('/api/detail-transactions/:detailTransactionId', detailTransactionController.get);
-userRouter.get('/api/detail-transactions', detailTransactionController.search);
+userRouter.get('/api/transactions/list', transactionController.list);
 
 // Order API
 userRouter.post('/api/orders', cartController.createOrder);

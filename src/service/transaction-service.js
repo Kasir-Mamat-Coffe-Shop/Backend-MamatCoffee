@@ -14,7 +14,11 @@ const get = async (transactionId) => {
             id,
         },
         include: {
-            cart_items: true,
+            transaction_details: {
+                include: {
+                    product: true,
+                },
+            },
         },
     });
 
@@ -26,36 +30,85 @@ const get = async (transactionId) => {
 };
 
 const search = async (request) => {
-    const query = validate(searchTransactionValidation, request);
+    request = validate(searchTransactionValidation, request);
+
+    const skip = (request.page - 1) * request.size;
+
+    const filters = [];
+
+    if (request.transaction_code) {
+        filters.push({
+            transaction_code: {
+                contains: request.transaction_code,
+            }
+        });
+    }
+    if (request.transaction_method) {
+        filters.push({
+            transaction_method: {
+                equals: request.transaction_method,
+            }
+        });
+    }
+    if (request.total) {
+        filters.push({
+            total: {
+                equals: request.total,
+            }
+        });
+    }
+    if (request.date) {
+        filters.push({
+            date: {
+                equals: request.date,
+            }
+        });
+    }
+    if (request.status) {
+        filters.push({
+            status: {
+                contains: request.status,
+            }
+        });
+    }
+    if (request.email) {
+        filters.push({
+            email: {
+                contains: request.email,
+            }
+        });
+    }
 
     const transactions = await prismaClient.transaction.findMany({
         where: {
-            payment_method: query.payment_method,
+            AND: filters
         },
-        take: query.size,
-        skip: (query.page - 1) * query.size,
-        include: {
-            cart_items: true,
-        },
+        take: request.size,
+        skip: skip
     });
 
     const totalItems = await prismaClient.transaction.count({
         where: {
-            payment_method: query.payment_method,
+            AND: filters
         },
     });
 
     return {
         data: transactions,
         paging: {
-            page: query.page,
+            page: request.page,
             total_item: totalItems,
-            total_page: Math.ceil(totalItems / query.size),
+            total_page: Math.ceil(totalItems / request.size),
         },
     };
+};
+
+const list = async () => {
+    return transactions = await prismaClient.transaction.findMany();
 };
 
 export default {
     get,
     search,
+    list,
 };
