@@ -30,7 +30,8 @@ const register = async (request) => {
         data: user,
         select: {
             email: true,
-            name: true
+            first_name: true,
+            last_name: true
         }
     });
 };
@@ -66,7 +67,8 @@ const login = async (request) => {
             email: user.email
         },
         select: {
-            token: true
+            token: true,
+            email: true
         }
     });
 };
@@ -80,10 +82,12 @@ const get = async (email) => {
         },
         select: {
             email: true,
-            name: true,
+            first_name: true,
+            last_name: true,
             address: true,
             image: true,
-            is_active: true
+            is_active: true,
+            birth_date: true
         }
     });
 
@@ -108,11 +112,23 @@ const update = async (request) => {
     }
 
     const data = {};
-    if (user.name) {
-        data.name = user.name;
+    if (user.first_name) {
+        data.first_name = user.first_name;
+    }
+    if (user.last_name) {
+        data.last_name = user.last_name;
     }
     if (user.password) {
         data.password = await bcrypt.hash(user.password, 10);
+    }
+    if (user.address) {
+        data.address = user.address;
+    }
+    if (user.birth_date) {
+        data.birth_date = user.birth_date;
+    }
+    if (user.image) {
+        data.image = user.image;
     }
 
     return prismaClient.user.update({
@@ -122,10 +138,12 @@ const update = async (request) => {
         data: data,
         select: {
             email: true,
-            name: true,
+            first_name: true,
+            last_name: true,
             address: true,
             image: true,
-            is_active: true
+            is_active: true,
+            birth_date: true
         }
     });
 };
