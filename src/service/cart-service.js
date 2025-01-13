@@ -1,9 +1,9 @@
+import paymentService from "./payment-service.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import {
     createCartValidation,
     updateCartValidation,
-    removeCartValidation,
     checkoutCartValidation
 } from "../validation/cart-validation.js";
 import { validate } from "../validation/validation.js";
@@ -14,6 +14,7 @@ const createOrder = async (request) => {
     const product = await prismaClient.product.findUnique({
         where: { id: order.productId },
     });
+    logger.info(`create order product id: ${order.productId}`);
 
     if (!product) {
         throw new ResponseError(404, "Product not found");
@@ -23,7 +24,7 @@ const createOrder = async (request) => {
         throw new ResponseError(400, "Not enough stock");
     }
 
-    const existingOrder = await prismaClient.temp.findUnique({
+    const existingOrder = await prismaClient.temp.findFirst({
         where: { product_id: order.productId },
     });
 
@@ -62,11 +63,14 @@ const updateOrder = async (request) => {
         where: { id: order.id },
     });
 
+    logger.info(`update order id: ${order.id}`);
+    logger.info(`update order product id: ${orderInDatabase.product_id}`);
+
     if (!orderInDatabase) {
         throw new ResponseError(404, "Order not found");
     }
 
-    const product = await prismaClient.product.findUnique({
+    const product = await prismaClient.product.findFirst({
         where: { id: orderInDatabase.product_id },
     });
 
@@ -84,8 +88,15 @@ const updateOrder = async (request) => {
 };
 
 const deleteOrder = async (id) => {
+    const parsedId = parseInt(id, 10);
+
+    if (isNaN(parsedId)) {
+        throw new ResponseError(400, "Invalid ID format");
+    }
+
+    logger.info(`delete order id: ${parsedId}`);
     const order = await prismaClient.temp.findUnique({
-        where: { id: order.id },
+        where: { id: parsedId },
     });
 
     if (!order) {
@@ -93,7 +104,7 @@ const deleteOrder = async (id) => {
     }
 
     return prismaClient.temp.delete({
-        where: { id: order.id },
+        where: { id: parsedId },
     });
 };
 
@@ -114,12 +125,12 @@ const checkout = async (request) => {
     const totalAmount = cartItems.reduce((total, item) => total + item.sub_total, 0);
     logger.info('Total Amount: ', totalAmount);
 
-    let paymentResponse;
+    let payment;
     try {
         if (order.paymentMethod === 'QRIS') {
-            paymentResponse = await paymentService.createQrisPayment(cartItems, totalAmount, order);
+            payment = await paymentService.createQrisPayment(cartItems, totalAmount, order);
         } else if (order.paymentMethod === 'CASH') {
-            paymentResponse = await paymentService.createCashPayment(cartItems, totalAmount, order);
+            payment = await paymentService.createCashPayment(cartItems, totalAmount, order);
         } else {
             throw new ResponseError(400, "Invalid payment method");
         }
@@ -127,11 +138,23 @@ const checkout = async (request) => {
         throw new ResponseError(500, `Payment failed: ${error.message}`);
     }
 
+    // Update stock for each product
+    for (const item of cartItems) {
+        const updatedProduct = await prismaClient.product.update({
+            where: { id: item.product_id },
+            data: { stock: { decrement: item.quantity } }, // Decrease stock by item.quantity
+        });
+
+        if (updatedProduct.stock < 0) {
+            throw new ResponseError(400, `Stock for product ${item.product.name} is insufficient`);
+        }
+    }
+
     // Clear the temp table and reset AUTO_INCREMENT
     await prismaClient.temp.deleteMany({});
-    await prismaClient.$executeRawUnsafe(`ALTER TABLE temp AUTO_INCREMENT = 1`);
+    await prismaClient.$executeRawUnsafe(`ALTER TABLE temps AUTO_INCREMENT = 1`);
 
-    return { transaction: paymentResponse };
+    return { payment };
 };
 
 export default {

@@ -11,41 +11,40 @@ Content-Type: application/json
 
 POST http://localhost:3000/api/orders
 Content-Type: application/json
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "product_id": 1,
-  "quantity": 2
+  "productId": 4,
+  "quantity": 1
 }
 
 ### Get Order
 
 GET http://localhost:3000/api/orders
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Update Order
 
 PUT http://localhost:3000/api/orders/1
 Content-Type: application/json
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "quantity": 3
+  "quantity": 2
 }
 
 ### Delete Order
 
-DELETE http://localhost:3000/api/orders/1
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+DELETE http://localhost:3000/api/orders/2
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Checkout
 
 POST http://localhost:3000/api/orders/checkout
 Content-Type: application/json
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "payment_method": "cash",
-  "cashPaid": "",
+  "paymentMethod": "QRIS",
   "email": "user"
 }

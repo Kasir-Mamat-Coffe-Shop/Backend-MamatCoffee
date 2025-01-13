@@ -22,7 +22,9 @@ const getOrder = async (req, res, next) => {
 const updateOrder = async (req, res, next) => {
     try {
         const orderId = req.params.orderId;
-        const result = await cartService.updateOrder(orderId);
+        const request = req.body;
+        request.id = orderId;
+        const result = await cartService.updateOrder(request);
         res.status(200).json(result);
     } catch (error) {
         next(error);
@@ -42,7 +44,7 @@ const deleteOrder = async (req, res, next) => {
 const checkout = async (req, res, next) => {
     try {
         const request = req.body;
-        const result = await paymentService.createPayment(request);
+        const result = await cartService.checkout(request);
         res.status(200).json(result);
     } catch (error) {
         next(error);

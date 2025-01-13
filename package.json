@@ -14,9 +14,12 @@
   "type": "module",
   "dependencies": {
     "@prisma/client": "^6.1.0",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "joi": "^17.13.3",
+    "midtrans-client": "^1.4.2",
     "moment-timezone": "^0.5.46",
     "uuid": "^11.0.3",
     "winston": "^3.17.0",

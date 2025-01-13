@@ -11,37 +11,37 @@ Content-Type: application/json
 ### Create a new product
 POST http://localhost:3000/api/products
 Content-Type: application/json
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "product_name": "Cappuchino",
-  "price": 15000,
+  "product_name": "Matcha",
+  "price": 12000,
   "stock": 10,
-  "image": "https://example.com/cappuchino.jpg",
-  "category_id": 2
+  "image": "https://example.com/matcha.jpg",
+  "category_id": 3
 }
 
 ### Get a product by ID
 GET http://localhost:3000/api/products/4
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Update a product by ID
-PUT http://localhost:3000/api/products/4
+PUT http://localhost:3000/api/products/5
 Content-Type: application/json
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "product_name": "Updated Americano",
-  "price": 12000,
-  "stock": 15,
-  "image": "https://example.com/updated-americano.jpg",
+  "product_name": "Cappuchino",
+  "price": 15000,
+  "stock": 100,
+  "image": "https://example.com/updated-cappuchino.jpg",
   "category_id": 2
 }
 
 ### Search for products
 GET http://localhost:3000/api/products?product_name=Cappuchino&page=1&size=10
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Delete a product by ID
 DELETE http://localhost:3000/api/products/4
-Authorization: a258adbc-589b-4a34-a99e-b0eff151339e
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1

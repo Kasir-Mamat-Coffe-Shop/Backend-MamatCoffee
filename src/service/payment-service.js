@@ -1,47 +1,58 @@
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import midtransClient from 'midtrans-client';
+import axios from "axios";
+import { logger } from "../application/logging.js";
+import { sendToClients } from "../application/websocket.js";
 
-const createQrisPayment = async (cartItems, totalAmount, email) => {
+const createQrisPayment = async (cartItems, totalAmount, order) => {
     const serverKey = process.env.SERVER_KEY;
-    const clientKey = process.env.CLIENT_KEY;
-
-    const midtrans = new midtransClient.CoreApi({
-        isProduction: false,
-        serverKey: serverKey,
-        clientKey: clientKey,
-    });
+    const midtransUrl = process.env.MIDTRANS_URL;
 
     const transactionCode = `ORDER-${Date.now()}`;
 
     const parameter = {
-        "payment_type": "qris",
-        "transaction_details": {
-            "order_id": transactionCode,
-            "gross_amount": totalAmount,
+        payment_type: "qris",
+        transaction_details: {
+            order_id: transactionCode,
+            gross_amount: totalAmount,
         },
-        "item_details": cartItems.map(item => ({
-            "id": item.product_id,
-            "price": item.price,
-            "quantity": item.quantity,
-            "name": item.name,
+        item_details: cartItems.map(item => ({
+            id: item.product_id,
+            price: item.product.price,
+            quantity: item.quantity,
+            name: item.product.product_name,
         })),
-        "customer_details": {
-            "first_name": "Tws",
-            "last_name": "Kasir",
-            "email": "tws.kasir@example.com",
-            "phone": "081234567890",
+        customer_details: {
+            first_name: "Tws",
+            last_name: "Kasir",
+            email: "tws.kasir@example.com",
+            phone: "081234567890",
         },
     };
 
     try {
-        const chargeResponse = await midtrans.charge(parameter);
+        const chargeResponse = await axios.post(midtransUrl, parameter, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + Buffer.from(serverKey).toString('base64')
+            }
+        });
 
-        const qrCodeUrl = chargeResponse.actions.find(action => action.name === 'generate-qr-code').url;
-        logger.info(`Payment created for ${transactionCode}, QR Code URL: ${qrCodeUrl}`);
-        if (!qrCodeAction) {
-            throw new ResponseError(500, "Failed to get QR code URL");
+        logger.info(`charge response ${JSON.stringify(chargeResponse.data, null, 2)}`);
+
+        if (!chargeResponse.data) {
+            throw new Error('Data not found in Midtrans response');
         }
+
+        const qrCodeAction = chargeResponse.data.actions?.find(action => action.name === 'generate-qr-code');
+
+        if (!qrCodeAction || !qrCodeAction.url) {
+            throw new ResponseError(500, "Failed to get QR code URL from Midtrans response");
+        }
+
+        const qrCodeUrl = qrCodeAction.url;
+
+        logger.info(`Payment created for ${transactionCode}, QR Code URL: ${qrCodeUrl}`);
 
         // Create transaction
         const transaction = await prismaClient.transaction.create({
@@ -50,7 +61,7 @@ const createQrisPayment = async (cartItems, totalAmount, email) => {
                 transaction_method: 'QRIS',
                 total: totalAmount,
                 date: new Date(),
-                status: chargeResponse.transaction_status,
+                status: chargeResponse.data.transaction_status,
                 user: {
                     connect: {
                         email: order.email,
@@ -72,6 +83,12 @@ const createQrisPayment = async (cartItems, totalAmount, email) => {
         });
         return { message: 'Payment created successfully', qrCodeUrl, transaction };
     } catch (error) {
+        console.error("Error with Midtrans API:", {
+            message: error.message,
+            responseData: error.response?.data,
+            responseStatus: error.response?.status,
+            headers: error.response?.headers,
+        });
         throw new ResponseError(500, "Payment processing failed");
     }
 };
@@ -112,13 +129,13 @@ const createCashPayment = async (cartItems, totalAmount, order) => {
         },
     });
 
-    return { message: 'Payment created successfully', transaction, change };
+    return { message: 'Payment paid successfully', transaction, change };
 };
 
-const updatePaymentStatus = async (transactionCode, transactionStatus) => {
+const updatePaymentStatus = async (order_id, transaction_status) => {
     try {
-        const payment = await prisma.payment.findFirst({
-            where: { transaction_code: transactionCode },
+        const payment = await prismaClient.transaction.findFirst({
+            where: { transaction_code: order_id },
         });
 
         if (!payment) {
@@ -126,12 +143,13 @@ const updatePaymentStatus = async (transactionCode, transactionStatus) => {
         }
 
         // Update the payment status
-        await prisma.transaction.update({
-            where: { id: transaction.id },
-            data: { status: transactionStatus },
+        await prismaClient.transaction.update({
+            where: { id: payment.id },
+            data: { status: transaction_status },
         });
 
-        logger.info(`Payment status updated for order ID ${transactionCode}: ${transactionStatus}`);
+        logger.info(`Payment status updated for order ID ${order_id}: ${transaction_status}`);
+
     } catch (error) {
         logger.error(`Failed to update payment status: ${error.message}`);
         throw new Error('Failed to update payment status');
