@@ -41,14 +41,9 @@ const get = async (productId) => {
         where: {
             id: productId
         },
-        select: {
-            id: true,
-            product_name: true,
-            price: true,
-            stock: true,
-            image: true,
-            category_id: true
-        }
+        include: {
+            category: true
+        },
     });
 
     if (!product) {
