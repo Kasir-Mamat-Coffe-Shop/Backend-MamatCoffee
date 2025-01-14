@@ -78,14 +78,6 @@ const update = async (request) => {
             category_id: product.category_id
         }, include: {
             category: true
-        },
-        select: {
-            id: true,
-            product_name: true,
-            price: true,
-            stock: true,
-            image: true,
-            category_id: true
         }
     });
 };
