@@ -76,6 +76,8 @@ const update = async (request) => {
             stock: product.stock,
             image: product.image,
             category_id: product.category_id
+        }, include: {
+            category: true
         },
         select: {
             id: true,
@@ -147,6 +149,9 @@ const search = async (request) => {
     const products = await prismaClient.product.findMany({
         where: {
             AND: filters
+        },
+        include: {
+            category: true
         },
         take: request.size,
         skip: skip
