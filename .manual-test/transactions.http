@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### Get a transaction by ID
-GET http://localhost:3000/api/transactions/
+GET http://localhost:3000/api/transactions/2
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Search for transactions
@@ -17,7 +17,13 @@ GET http://localhost:3000/api/transactions?transaction_method=CASH&page=1&size=1
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### List for transaction
-GET http://localhost:3000/api/transactions/list
+GET http://localhost:3000/api/transactions/
+Content-Type: application/json
+Accept: application/json
+Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
+
+### List for transaction details
+GET http://localhost:3000/api/transactions/list/details
 Content-Type: application/json
 Accept: application/json
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1

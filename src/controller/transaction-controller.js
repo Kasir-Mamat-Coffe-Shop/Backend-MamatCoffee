@@ -29,8 +29,18 @@ const list = async (req, res, next) => {
     }
 };
 
+const listTransactionDetails = async (req, res, next) => {
+    try {
+        const result = await transactionService.listTransactionDetails();
+        res.status(200).json(result);
+    } catch (e) {
+        next(e);
+    }
+};
+
 export default {
     get,
     search,
     list,
+    listTransactionDetails
 };

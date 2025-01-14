@@ -32,6 +32,7 @@ userRouter.get('/api/categorys', categoryController.search);
 userRouter.get('/api/transactions/:transactionId', transactionController.get);
 userRouter.get('/api/transactions', transactionController.search);
 userRouter.get('/api/transactions/list', transactionController.list);
+userRouter.get('/api/transactions/list/details', transactionController.listTransactionDetails);
 
 // Order API
 userRouter.post('/api/orders', cartController.createOrder);

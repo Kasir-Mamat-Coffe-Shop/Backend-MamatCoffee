@@ -107,8 +107,19 @@ const list = async () => {
     return transactions = await prismaClient.transaction.findMany();
 };
 
+const listTransactionDetails = async () => {
+    const transactionDetails = await prismaClient.transactionDetail.findMany({
+        include: {
+            product: true,
+        },
+    });
+
+    return transactionDetails;
+};
+
 export default {
     get,
     search,
     list,
+    listTransactionDetails
 };
