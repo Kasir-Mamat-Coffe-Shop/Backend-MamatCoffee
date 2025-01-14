@@ -1,4 +1,4 @@
-import { WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 import { logger } from './logging.js';
 
 // Store connected clients
@@ -13,6 +13,15 @@ export function startWebSocketServer(server) {
         connectedClients.push(ws);
         logger.info("WebSocket connection established");
 
+        ws.on('message', (message) => {
+            logger.info(`Received: ${message}`);
+            // Broadcast the message to all connected clients
+            wss.clients.forEach((client) => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(message);
+                }
+            });
+        });
 
         // Handle client disconnection
         ws.on("close", () => {
@@ -21,7 +30,7 @@ export function startWebSocketServer(server) {
         });
 
         // Send a welcome message to the new client
-        ws.send("Welcome to the WebSocket server!");
+        // ws.send("Welcome to the WebSocket server!");
     });
 
     logger.info("WebSocket server is running");
