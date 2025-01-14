@@ -7,6 +7,7 @@ const registerUserValidation = Joi.object({
     password: Joi.string().max(100).required(),
     address: Joi.string().max(200).required(),
     birth_date: Joi.date().optional(),
+    image: Joi.string().optional(),
     is_active: Joi.string().valid('ACTIVE', 'INACTIVE',).default('ACTIVE')
 });
 

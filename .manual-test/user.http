@@ -27,21 +27,21 @@ Accept: application/json
 DELETE http://localhost:3000/api/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
+Authorization: 80698704-6bed-4a8e-88ba-a626b1ae0796
 
 ###
 
 GET http://localhost:3000/api/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 80698704-6bed-4a8e-88ba-a626b1ae0796
 
 ###
 
 PATCH http://localhost:3000/api/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 4aa41cdb-c4c6-4642-a0b0-f6183bb7d11f
+Authorization: 80698704-6bed-4a8e-88ba-a626b1ae0796
 
 {
   "image" : "image.img"

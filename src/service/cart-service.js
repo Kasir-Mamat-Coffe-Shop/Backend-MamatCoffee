@@ -36,6 +36,9 @@ const createOrder = async (request) => {
                 quantity: existingOrder.quantity + order.quantity,
                 sub_total: (existingOrder.quantity + order.quantity) * product.price,
             },
+            include: {
+                product: true,
+            },
         });
     } else {
         // Create new order
@@ -44,6 +47,9 @@ const createOrder = async (request) => {
                 quantity: order.quantity,
                 sub_total: order.quantity * product.price,
                 product: { connect: { id: order.productId } },
+            },
+            include: {
+                product: true,
             },
         });
     }
@@ -83,6 +89,9 @@ const updateOrder = async (request) => {
         data: {
             quantity: order.quantity,
             sub_total: order.quantity * product.price,
+        },
+        include: {
+            product: true,
         },
     });
 };

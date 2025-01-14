@@ -41,14 +41,9 @@ const get = async (productId) => {
         where: {
             id: productId
         },
-        select: {
-            id: true,
-            product_name: true,
-            price: true,
-            stock: true,
-            image: true,
-            category_id: true
-        }
+        include: {
+            category: true
+        },
     });
 
     if (!product) {
@@ -81,14 +76,8 @@ const update = async (request) => {
             stock: product.stock,
             image: product.image,
             category_id: product.category_id
-        },
-        select: {
-            id: true,
-            product_name: true,
-            price: true,
-            stock: true,
-            image: true,
-            category_id: true
+        }, include: {
+            category: true
         }
     });
 };
@@ -152,6 +141,9 @@ const search = async (request) => {
     const products = await prismaClient.product.findMany({
         where: {
             AND: filters
+        },
+        include: {
+            category: true
         },
         take: request.size,
         skip: skip

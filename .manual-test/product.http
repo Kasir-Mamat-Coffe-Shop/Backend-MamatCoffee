@@ -14,10 +14,10 @@ Content-Type: application/json
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
-  "product_name": "Matcha",
-  "price": 12000,
-  "stock": 10,
-  "image": "https://example.com/matcha.jpg",
+  "product_name": "Ocha",
+  "price": 10000,
+  "stock": 100,
+  "image": "https://example.com/ocha.jpg",
   "category_id": 3
 }
 
@@ -26,16 +26,16 @@ GET http://localhost:3000/api/products/4
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 ### Update a product by ID
-PUT http://localhost:3000/api/products/5
+PUT http://localhost:3000/api/products/7
 Content-Type: application/json
 Authorization: 6e474614-c0b1-46e8-bff5-f2b84b3589e1
 
 {
   "product_name": "Cappuchino",
-  "price": 15000,
+  "price": 5000,
   "stock": 100,
   "image": "https://example.com/updated-cappuchino.jpg",
-  "category_id": 2
+  "category_id": 3
 }
 
 ### Search for products
