@@ -20,7 +20,7 @@ const handleWebhook = async (req, res, next) => {
         // Notify frontend based on transaction status
         if (notification.transaction_status === "settlement") {
             res.status(200).json({ message: 'Pembayaran sukses' });
-            sendToClients({ message: 'Payment paid successfully' });
+            sendToClients({ action: "qr_paid", message: 'Payment paid successfully' });
         } else if (notification.transaction_status === "pending") {
             res.status(200).json({ message: 'Pembayaran dalam proses' });
         } else if (notification.transaction_status === "cancel") {
